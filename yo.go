@@ -67,6 +67,36 @@ func (c *Client) NewRequest(method, urlStr string,
 	return req, nil
 }
 
+// NewRequestForm creates a new API request that POSTs a form. urlStr can
+// either be a relative or absolute url. If it's relative, then it's resolved
+// to the BaseURL of the Client. data's keys and values are encoded to the
+// request body.
+func (c *Client) NewRequestForm(urlStr string,
+	data url.Values) (*http.Request, error) {
+	rel, err := url.Parse(urlStr)
+	if err != nil {
+		return nil, err
+	}
+
+	u := c.BaseURL.ResolveReference(rel)
+
+	buf := new(bytes.Buffer)
+	if data != nil {
+		_, err := buf.WriteString(data.Encode())
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	req, err := http.NewRequest("POST", u.String(), buf)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("User-Agent", c.UserAgent)
+	return req, nil
+}
+
 func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	resp, err := c.client.Do(req)
 	if err != nil {

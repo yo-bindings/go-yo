@@ -98,6 +98,57 @@ func TestNewRequest_badURL(t *testing.T) {
 	}
 }
 
+func TestNewRequestForm(t *testing.T) {
+	c := NewClient(nil)
+
+	inURL, outURL := "/foo", baseURL+"foo"
+	inBody, outBody := url.Values{"foo": {"bar"}}, `foo=bar`
+
+	req, err := c.NewRequestForm(inURL, inBody)
+	if err != nil {
+		t.Errorf("NewRequestForm returned error: %v", err.Error())
+	}
+
+	if req.URL.String() != outURL {
+		t.Errorf("NewRequestForm(%v) URL = %v, want %v", inURL, req.URL, outURL)
+	}
+
+	body, _ := ioutil.ReadAll(req.Body)
+	if string(body) != outBody {
+		t.Errorf("NewRequestForm(%v) Body = %v, want %v", inBody, string(body),
+			outBody)
+	}
+
+	userAgent := req.Header.Get("User-Agent")
+	if c.UserAgent != userAgent {
+		t.Errorf("NewRequestForm UserAgent = %v, want %v", userAgent, c.UserAgent)
+	}
+}
+
+func TestNewRequestForm_badURL(t *testing.T) {
+	c := NewClient(nil)
+	_, err := c.NewRequestForm(":", url.Values{"foo": {"bar"}})
+	if err == nil {
+		t.Errorf("Expected error to be returned")
+	}
+	if err, ok := err.(*url.Error); !ok || err.Op != "parse" {
+		t.Errorf("Expected URL parse error, got %+v", err)
+	}
+}
+
+func TestNewRequestForm_noData(t *testing.T) {
+	c := NewClient(nil)
+	req, err := c.NewRequestForm("foo", nil)
+	if err != nil {
+		t.Errorf("NewRequestForm returned error: %v", err.Error())
+	}
+
+	body, _ := ioutil.ReadAll(req.Body)
+	if string(body) != "" {
+		t.Errorf(`NewRequestForm(%v) Body = "%v", want ""`, string(body))
+	}
+}
+
 func TestDo(t *testing.T) {
 	setup()
 	defer teardown()
