@@ -1,6 +1,6 @@
 # go-yo
 
-Unofficial Go bindings for the Yo API.
+Go bindings for the Yo API.
 
 * [Documentation](http://godoc.org/github.com/zachlatta/go-yo)
 * [![Build Status](https://drone.io/github.com/zachlatta/go-yo/status.png)](https://drone.io/github.com/zachlatta/go-yo/latest)
