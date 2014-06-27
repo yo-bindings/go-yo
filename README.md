@@ -1,6 +1,7 @@
 # go-yo
 
-Go bindings for the Yo API.
+Go bindings for the Yo API. Code structure inspired by the wonderful
+[go-github](https://github.com/google/go-github).
 
 **Documentation**: http://godoc.org/github.com/zachlatta/go-yo
 
