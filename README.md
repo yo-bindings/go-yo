@@ -7,6 +7,10 @@ Go bindings for the Yo API. Code structure inspired by the wonderful
 
 **Build Status**: [![Build Status](https://drone.io/github.com/zachlatta/go-yo/status.png)](https://drone.io/github.com/zachlatta/go-yo/latest)
 
+## Getting Started
+
+    $ go get github.com/yo-bindings/go-yo
+
 ## License
 
 See [LICENSE](LICENSE) ([tl;dr](https://tldrlegal.com/license/mit-license)).
