@@ -11,7 +11,7 @@ func TestYoAll(t *testing.T) {
 
 	apiToken := "FOOBAR"
 
-	mux.HandleFunc("/yoall", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/yoall/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != "POST" {
 			t.Errorf("Bad HTTP method: expected POST, got %v", r.Method)
 
